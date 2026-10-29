@@ -1,0 +1,9 @@
+<h2>Overview</h2>
+<p class="muted">Total applications: {{ store.stats().total }}</p>
+
+@for (s of statuses; track s) {
+  <div class="bar-row">
+    <span class="bar-label">{{ s }} ({{ store.stats().byStatus[s] }})</span>
+    <div class="bar"><div class="bar-fill" [style.width.%]="percent(s)"></div></div>
+  </div>
+}

@@ -1,0 +1,30 @@
+<div class="toolbar">
+  <input placeholder="Search company or role" (input)="onSearch($event)" />
+  <select (change)="onFilter($event)">
+    <option value="All">All</option>
+    @for (s of statuses; track s) {
+      <option [value]="s">{{ s }}</option>
+    }
+  </select>
+</div>
+
+<ul class="list">
+  @for (job of store.filtered(); track job.id) {
+    <li class="card">
+      <div>
+        <strong>{{ job.company }}</strong>
+        <div class="muted">{{ job.role }} · {{ job.date }}</div>
+      </div>
+      <div class="actions">
+        <select [value]="job.status" (change)="onStatus(job.id, $event)">
+          @for (s of statuses; track s) {
+            <option [value]="s" [selected]="s === job.status">{{ s }}</option>
+          }
+        </select>
+        <button class="danger" (click)="store.remove(job.id)">Delete</button>
+      </div>
+    </li>
+  } @empty {
+    <li class="muted">No jobs found. Add your first application above.</li>
+  }
+</ul>
